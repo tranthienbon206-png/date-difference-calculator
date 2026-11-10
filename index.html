@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Difference Calculator - Công cụ tính khoảng cách giữa hai ngày</title>
+    <meta name="description"
+        content="Tính nhanh khoảng cách giữa hai ngày bất kỳ. Hiển thị số năm, tháng, ngày, tuần và tổng số ngày giữa hai mốc thời gian.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        input[type="date"] {
+            color-scheme: light;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-gray-50 text-gray-800">
+
+    <header class="bg-white border-b">
+        <div class="max-w-5xl mx-auto px-5 py-5">
+            <h1 class="text-2xl font-bold text-gray-900">Date Difference Calculator</h1>
+            <p class="text-sm text-gray-500 mt-1">Công cụ tính khoảng cách giữa hai ngày</p>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-5 py-10">
+
+        <section class="bg-white border rounded-2xl shadow-sm p-6 md:p-8">
+
+            <div class="mb-7">
+                <h2 class="text-xl font-bold mb-2">Tính khoảng cách giữa hai ngày</h2>
+                <p class="text-sm text-gray-500">
+                    Chọn hai mốc thời gian để xem khoảng cách chính xác giữa chúng.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                <div>
+                    <label for="startDate" class="block text-sm font-semibold mb-2">
+                        Ngày bắt đầu
+                    </label>
+                    <input type="date" id="startDate"
+                        class="w-full border rounded-lg px-4 py-3 outline-none focus:border-yellow-500">
+                </div>
+
+                <div>
+                    <label for="endDate" class="block text-sm font-semibold mb-2">
+                        Ngày kết thúc
+                    </label>
+                    <input type="date" id="endDate"
+                        class="w-full border rounded-lg px-4 py-3 outline-none focus:border-yellow-500">
+                </div>
+
+            </div>
+
+            <div class="flex flex-wrap gap-3 mt-6">
+                <button onclick="calculateDifference()"
+                    class="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold px-6 py-3 rounded-lg transition">
+                    Tính khoảng cách
+                </button>
+
+                <button onclick="resetCalculator()"
+                    class="border hover:bg-gray-100 font-semibold px-6 py-3 rounded-lg transition">
+                    Đặt lại
+                </button>
+            </div>
+
+            <p id="message" class="text-sm mt-4"></p>
+
+            <div id="result" class="hidden mt-8">
+
+                <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-5 mb-6">
+                    <p class="text-sm text-gray-600 mb-2">Tổng khoảng cách</p>
+                    <div class="flex items-baseline gap-2 flex-wrap">
+                        <span id="totalDays" class="text-4xl font-bold text-gray-900">0</span>
+                        <span class="text-gray-600 font-medium">ngày</span>
+                    </div>
+                    <p id="dateRange" class="text-sm text-gray-500 mt-2"></p>
+                </div>
+
+                <h3 class="font-bold text-lg mb-4">Chi tiết kết quả</h3>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+                    <div class="bg-gray-50 border rounded-xl p-4">
+                        <p class="text-sm text-gray-500 mb-2">Năm</p>
+                        <p id="years" class="text-2xl font-bold">0</p>
+                    </div>
+
+                    <div class="bg-gray-50 border rounded-xl p-4">
+                        <p class="text-sm text-gray-500 mb-2">Tháng</p>
+                        <p id="months" class="text-2xl font-bold">0</p>
+                    </div>
+
+                    <div class="bg-gray-50 border rounded-xl p-4">
+                        <p class="text-sm text-gray-500 mb-2">Tuần</p>
+                        <p id="weeks" class="text-2xl font-bold">0</p>
+                    </div>
+
+                    <div class="bg-gray-50 border rounded-xl p-4">
+                        <p class="text-sm text-gray-500 mb-2">Ngày lẻ</p>
+                        <p id="remainingDays" class="text-2xl font-bold">0</p>
+                    </div>
+
+                </div>
+
+                <div class="flex flex-wrap gap-3 mt-6">
+                    <button onclick="copyResult()"
+                        class="bg-gray-900 hover:bg-gray-700 text-white font-medium px-5 py-2.5 rounded-lg transition">
+                        Sao chép kết quả
+                    </button>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="bg-white border rounded-2xl p-6 mt-7">
+            <h2 class="font-bold text-lg mb-3">Cách sử dụng công cụ</h2>
+            <ol class="list-decimal pl-5 space-y-2 text-sm text-gray-600 leading-6">
+                <li>Chọn ngày bắt đầu mà bạn muốn tính.</li>
+                <li>Chọn ngày kết thúc.</li>
+                <li>Nhấn nút Tính khoảng cách.</li>
+                <li>Xem tổng số ngày và kết quả chi tiết.</li>
+                <li>Sao chép kết quả nếu cần sử dụng.</li>
+            </ol>
+        </section>
+
+        <section class="bg-white border rounded-2xl p-6 mt-7">
+            <h2 class="font-bold text-lg mb-3">Date Difference Calculator là gì?</h2>
+            <p class="text-sm text-gray-600 leading-7">
+                Date Difference Calculator là công cụ giúp xác định khoảng thời gian
+                giữa hai ngày bất kỳ. Công cụ có thể sử dụng để tính số ngày còn lại
+                đến một sự kiện, thời gian giữa hai mốc công việc hoặc số ngày của
+                một khoảng thời gian cụ thể.
+            </p>
+        </section>
+
+    </main>
+
+    <footer class="text-center text-sm text-gray-500 py-6">
+        Date Difference Calculator © 2026
+    </footer>
+
+    <script>
+        function parseDate(value) {
+            const parts = value.split("-").map(Number);
+            return new Date(Date.UTC(parts[0], parts[1] - 1, parts[2]));
+        }
+
+        function formatDate(date) {
+            return date.toLocaleDateString("vi-VN", {
+                timeZone: "UTC",
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric"
+            });
+        }
+
+        function calculateDifference() {
+            const startValue = document.getElementById("startDate").value;
+            const endValue = document.getElementById("endDate").value;
+            const message = document.getElementById("message");
+            const result = document.getElementById("result");
+
+            message.textContent = "";
+            result.classList.add("hidden");
+
+            if (!startValue || !endValue) {
+                message.textContent = "Vui lòng chọn đầy đủ ngày bắt đầu và ngày kết thúc.";
+                message.className = "text-sm mt-4 text-red-600";
+                return;
+            }
+
+            let start = parseDate(startValue);
+            let end = parseDate(endValue);
+
+            if (start > end) {
+                const temp = start;
+                start = end;
+                end = temp;
+            }
+
+            const millisecondsPerDay = 24 * 60 * 60 * 1000;
+            const totalDays = Math.round((end - start) / millisecondsPerDay);
+
+            let years = end.getUTCFullYear() - start.getUTCFullYear();
+            let months = end.getUTCMonth() - start.getUTCMonth();
+            let days = end.getUTCDate() - start.getUTCDate();
+
+            if (days < 0) {
+                months--;
+
+                const previousMonth = new Date(Date.UTC(
+                    end.getUTCFullYear(),
+                    end.getUTCMonth(),
+                    0
+                ));
+
+                days += previousMonth.getUTCDate();
+            }
+
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            const weeks = Math.floor(totalDays / 7);
+            const remainingDays = totalDays % 7;
+
+            document.getElementById("totalDays").textContent =
+                totalDays.toLocaleString("vi-VN");
+
+            document.getElementById("years").textContent = years;
+            document.getElementById("months").textContent = months;
+            document.getElementById("weeks").textContent = weeks;
+            document.getElementById("remainingDays").textContent = remainingDays;
+
+            document.getElementById("dateRange").textContent =
+                formatDate(start) + " đến " + formatDate(end);
+
+            result.classList.remove("hidden");
+
+            message.textContent = "Đã tính khoảng cách thành công!";
+            message.className = "text-sm mt-4 text-green-600";
+        }
+
+        async function copyResult() {
+            const result = document.getElementById("result");
+
+            if (result.classList.contains("hidden")) return;
+
+            const text = [
+                "KẾT QUẢ TÍNH KHOẢNG CÁCH NGÀY",
+                document.getElementById("dateRange").textContent,
+                "Tổng số ngày: " + document.getElementById("totalDays").textContent,
+                "Số năm: " + document.getElementById("years").textContent,
+                "Số tháng: " + document.getElementById("months").textContent,
+                "Số tuần: " + document.getElementById("weeks").textContent,
+                "Số ngày lẻ: " + document.getElementById("remainingDays").textContent
+            ].join("\n");
+
+            const message = document.getElementById("message");
+
+            try {
+                await navigator.clipboard.writeText(text);
+            } catch (error) {
+                const textarea = document.createElement("textarea");
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand("copy");
+                textarea.remove();
+            }
+
+            message.textContent = "Đã sao chép kết quả!";
+            message.className = "text-sm mt-4 text-green-600";
+        }
+
+        function resetCalculator() {
+            document.getElementById("startDate").value = "";
+            document.getElementById("endDate").value = "";
+            document.getElementById("result").classList.add("hidden");
+            document.getElementById("message").textContent = "";
+        }
+
+        const today = new Date();
+        const localDate = [
+            today.getFullYear(),
+            String(today.getMonth() + 1).padStart(2, "0"),
+            String(today.getDate()).padStart(2, "0")
+        ].join("-");
+
+        document.getElementById("endDate").value = localDate;
+    </script>
+
+</body>
+
+</html>
